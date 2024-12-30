@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <nav>
+        <h1>Ecommerce</h1>
+         <h3 style="color: rgba(0,0,0,.7);">Add product for sale</h3>
+         <a href="/">Home</a>
+         <!-- <div class="links">
+            <img style="object-fit: cover;border-radius: 50%;" width="36em" height="36em" src="https://img.freepik.com/free-photo/beautiful-shot-tree-savanna-plains-with-blue-sky_181624-19933.jpg?ga=GA1.1.787201442.1730697806&semt=ais_hybrid" alt="" >
+          </div> -->
+    </nav>
+
+    <header style="height: 80vh;">
+        <h1 style="font-family: sans-serif;margin-bottom: .4em;font-size: large;color: #06f;">Add your Product</h1>
+
+         <img width="70px" height="70px" 
+           src="https://img.freepik.com/free-photo/close-up-view-online-shopping-concept_23-2148625685.jpg?ga=GA1.1.787201442.1730697806&semt=ais_hybrid" 
+           style="border-radius: 50%;object-fit: cover;margin: .5em 0;" 
+           class="image" alt="" >
+        
+      
+        <form method="post" action="/addproduct"  enctype="multipart/form-data" >
+           
+            <div class="img"> 
+                <input class="file" type="file" name="image"  accept="image/*">
+                <label for="file" style="z-index: 2000;">
+                  <p> Add a picture </p>
+                </label>
+            </div>
+
+            <input type="text" name="name" placeholder="Item name">
+            <input type="number" name="price" placeholder="Price ($)">
+            <input type="text" name="category" placeholder="Category">
+            <input type="submit" style="cursor: pointer;" value="Add product" style="border: none;">
+            <p style="color: green;"><%= review %></p>
+
+        </form>
+     </header>
+
+     
+    <script>
+        const img = document.querySelector(".image")
+        const fileDOM = document.querySelector(".file")
+
+        fileDOM.addEventListener("change", (e) => {
+            const file = e.target.files[0]
+            
+             const url = URL.createObjectURL(file)
+             img.src = url 
+             console.log(url)
+          })
+
+    </script>
+
+</body>
+</html> 

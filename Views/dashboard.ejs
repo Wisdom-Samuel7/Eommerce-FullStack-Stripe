@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <nav>
+        <h1>Ecommerce</h1>
+        
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="/product">Products</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+   <div class="hero">
+    <h1 style="color: #06f;font-size: medium;font-family: sans-serif;">All your product for sale</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Item Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Images</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% product.forEach((product,index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= product.name %></td>
+            <td><%= product.price %></td>
+            <td><%= product.category %></td>
+            <td><img width="40px" height="40px" style="object-fit: cover;border-radius: 5%;" src="images/<%=product.profilePicture.filename %>" alt="" srcset=""></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+   </div>
+
+  
+</body>
+</html>

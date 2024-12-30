@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+
+    <link rel="stylesheet" href="index.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <nav>
+        <h1>Ecommerce</h1>
+        
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="/product">Products</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <div style="color: green;font-weight: 800;">
+             <%= count %> Items
+        </div>
+    </nav>
+
+  
+
+    <section class="carts" >
+
+      <div class="hero" >
+        <h1 style="color: #06f;font-size: large;font-family: sans-serif;">All your Oders</h1>
+       
+        <table>
+
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Item Name</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Images</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% orders.forEach((product,index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= product.productDetails.name %></td>
+                <td>$<%= product.productDetails.price %></td>
+                <td style="color: #06f;font-weight: 500;font-family: sans-serif;"><%= product.productDetails.category %></td>
+                <td style="background-color: #f4f4f9;text-align: center;"><img width="40px" height="40px" style="object-fit: cover;border-radius: 5%;" src="images/<%=product.productDetails.profilePicture.filename %>" alt="" srcset=""></td>
+                <td style="color: green;">
+                  <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                  </svg>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+
+        </table>
+
+       </div>
+
+    
+      <div class="checkout">
+          <h2 style="margin-bottom: 1em;font-family: sans-serif;color: rgba(0, 0, 0, .7);font-size: medium;"> Payment Info </h2>
+          <div class="headline" style="color: gray;font-weight: 900;font-family:serif;font-size: x-large;margin-bottom: .2em;">
+            
+            <% let total = 0; %>
+            <% orders.forEach((product,index) => { %>
+                <p style="display: none;"><%= total += product.productDetails.price %></p>
+            <% }); %>
+            <p class="tprice" style="display: none;"> <%= total %> </p>
+              <p class="price"> Total $<%= total %> </p>
+          </div>
+          <button title="Remove" onclick="FetchData()" style="background-color: #06f;border: none;border-radius: .4em;padding: .6em 4em;font-weight: 700;color: #f4f4f9;cursor: pointer;">
+              Pay now 
+          </button>
+
+          <div style="margin-top: 1em;display: flex;flex-direction: column;gap: 1em;flex-wrap: wrap;">
+            <% collections.forEach((items,index) => { %>
+
+              <div>
+                <div style="color: gray;font-size: medium;font-family: sans-serif;font-weight: bolder;">  <%= items.productName %>  </div>
+
+                <ul style="list-style-position: outside;color: #06f;">
+                  <li> Total Quantity : <%= items.totalQuantity %></li>
+                  <li> Price : $<%= items.totalPrice %> </li>
+                </ul>
+              </div>
+            
+            <% }); %>
+          </div>
+      </div>
+
+    </section>
+
+  <script>
+
+
+      const stripe  = Stripe("pk_test_51QbRWZDA4PZQJ9IUhNDlalxAI9d5v4VmrSfRZzJiUrD9ngr0pvGGodzaUV7tpSmT2Eu0lMWnV2jn29Xhu47cu6Jj00FZet6Ncp")
+      const data = document.querySelector(".tprice").innerHTML
+      const conv =  Number(data)
+      console.log(conv)
+      
+    
+   
+
+      function FetchData(){
+        const userOrders = <%- JSON.stringify(collections) %>; 
+        const updatedCollection = userOrders.map(({_id,...all})=> all) 
+          // const data = { 
+          //      name: "John Doe", 
+          //      price: 400 
+          //   };
+          // const mergedObj = updatedCollection.reduce((acc, item) => {
+          //    return { ...acc, ...item }; // Merge each object into the accumulator
+          //  }, {});
+       
+          console.log(updatedCollection) 
+ 
+          fetch("/checkout",{ 
+              method:"POST",   
+              headers: {
+               'Content-Type': 'application/json',
+             },
+              body:JSON.stringify(updatedCollection),
+            })
+            .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // Parse JSON from the response
+            })
+            .then((result) => {
+                console.log('Success:', result); // Handle the result
+                location.href = result 
+            })
+            .catch((error) => {
+                console.error('Error:', error); // Handle any errors
+            });
+        }
+    
+  
+  </script>
+</body>
+</html>

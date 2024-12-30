@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <nav>
+        <h1>Ecommerce</h1>
+        <h3 style="color: rgba(0,0,0,.7);">Login</h3>
+          <div class="links">
+            <a href="/">Home</a>
+          </div>
+    </nav>
+    <header>
+        <h1>Login</h1>
+        <form method="post" action="/login" >
+            <input type="email" name="email" placeholder="Email">
+            <input type="submit" style="cursor: pointer;" value="Login" style="border: none;">
+          
+            <!-- KNOWURCRAFT -->
+            <p style="color: red;"><%= message %></p>
+            
+        </form>
+     </header>
+</body>
+</html>
